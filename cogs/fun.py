@@ -41,6 +41,10 @@ class FunCog(commands.Cog, Server):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+
+        #Temp remove messages with content in drawing arena
+        if (message.channel.id == 750753280694550539 and message.content != ""):
+            await message.delete()
         
         member = message.author
 
