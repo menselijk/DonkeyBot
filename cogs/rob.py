@@ -5,6 +5,8 @@ from .Server import Server
 from tinydb import TinyDB, where
 from tinydb.operations import set
 
+import os
+import sys
 from random import seed
 from random import choice
 
@@ -64,6 +66,17 @@ class RobCog(commands.Cog, Server):
         
         general = message.guild.get_channel(self.generalChannel)
         await general.send("<@" + selection + "> won the cool guy raffle! ")
+    
+    @commands.command()
+    @commands.check(isRob)
+    async def restart(self, ctx):
+        python = sys.executable
+        args = [
+            'bot.py',
+            'restart',
+            str(ctx.message.channel.id)
+        ]
+        os.execl(python, python, *args)
 
 def setup(client):
     client.add_cog(RobCog(client))
