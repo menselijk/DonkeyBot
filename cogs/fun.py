@@ -68,7 +68,7 @@ class FunCog(commands.Cog, Server):
             for coolGuy in coolGuys:
                 await coolGuy.remove_roles(coolGuyRole)
 
-            #New cool guy
+            #New cool guys
             found = False
             while (not found):
                 selection = choice(self.activeUsers)
@@ -76,9 +76,16 @@ class FunCog(commands.Cog, Server):
                     found = True
             winner = message.guild.get_member(int(selection))
             await winner.add_roles(coolGuyRole)
+
+            found = False
+            while (not found):
+                selection = choice(message.guild.members)
+                if (selection != winner):
+                    await selection.add_roles(coolGuyRole)
+                    found = True
             
             general = message.guild.get_channel(self.generalChannel)
-            await general.send("<@" + selection + "> won the cool guy raffle! ")
+            await general.send(winner.mention + " and " + selection.mention + " won the cool guy raffle! ")
 
             #Reset active users
             self.activeUsers = []
