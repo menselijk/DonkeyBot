@@ -2,3 +2,5 @@
 *.pyc
 *.pyo
 database/
+cogs/Server.py
+database/events.json
