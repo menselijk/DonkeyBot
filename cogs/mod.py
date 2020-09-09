@@ -22,7 +22,7 @@ class ModCog(commands.Cog, Server):
         return False
 
     #Takes string, returns User
-    def parseUser(self, string):
+    async def parseUser(self, string):
         regEx = re.findall('\d+', string)
         ID = 0 if len(regEx) < 1 else int(regEx[0])
         return self.client.get_guild(self.server).get_member(ID)
@@ -70,7 +70,7 @@ class ModCog(commands.Cog, Server):
     @commands.check(isMod)
     async def notserious(self, ctx, user):
 
-        user = self.parseUser(user)
+        user = await self.parseUser(user)
         message = ctx.message
         #savedRoles = [] if self.users.get(where('id') == user.id) is None or 'roles' not in self.users.get(where('id') == user.id) else self.users.get(where('id') == user.id)['roles']
 
