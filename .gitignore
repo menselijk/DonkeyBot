@@ -4,3 +4,6 @@
 database/
 cogs/Server.py
 database/events.json
+.vscode/settings.json
+cogs/Server.py
+*.json
