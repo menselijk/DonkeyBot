@@ -100,7 +100,7 @@ class BasicCog(commands.Cog, Server):
     #Setup environment for local testing
     @commands.command()
     async def setup(self, ctx):
-        if (ctx.message.author.id == ctx.guild.owner.id): #Only test server owner can run setup
+        if (ctx.message.author.id == ctx.guild.owner_id): #Only server owner can run setup
             
             updated = "Setup Complete:```" #Updated variables
 
