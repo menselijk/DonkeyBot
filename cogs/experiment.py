@@ -19,6 +19,31 @@ class ExperimentCog(commands.Cog, Server):
         #Experiment channel combo
         self.combo = self.events.get(where('name') == 'experiment')['combo']
 
+    def regex_count_search(self, text):
+        # Credit: glaze#0563
+        text = re.sub(
+            #urls.
+            r'(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?' r'|'
+            #emoji
+            r'<:.+?:\d+>' r'|'
+            #animated emoji
+            r'<a:.+?:\d+>' r'|'
+            #mentions
+            r'<@.+?\d+>' r'|'
+            r'<@!.+?\d+>' r'|'
+            #role mentions
+            r'<@&.+?\d+>' r'|'
+            #channel mentions.
+            r'<#.+?\d+>' r'|'
+            ,
+            #empty string.
+            ' ', text)
+        
+        return re.search(r'\d+', text)
+    
+    def regex_count(self, value):
+        return 0 if value is None else self.regex_count_search(value).group()
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
 
@@ -36,7 +61,7 @@ class ExperimentCog(commands.Cog, Server):
         if (before.channel.id == self.experimentChannel):
 
             #Change nickname if someone removes their combo in an edit
-            beforeCount = re.search(r'\d+', before.content).group()
+            beforeCount = self.regex_count(before.content)
             if (beforeCount not in after.content):
                 await after.channel.send(after.author.mention + " edited their message\n> " + before.content)
     
@@ -48,8 +73,8 @@ class ExperimentCog(commands.Cog, Server):
         #Punish griefers
         if ((message.channel.id == self.experimentChannel) and (not member.bot and not member.guild_permissions.manage_messages)): #User was not staff or bot
             try:
-                regEx = re.search(r'\d+', message.content)
-                firstInt = 0 if regEx is None else regEx.group()
+                regEx = self.regex_count(message.content)
+                firstInt = 0 if regEx is None else regEx
                 
                 await message.channel.send("> " + firstInt + "\n<@" + str(member.id) + ">")
                 
@@ -98,8 +123,8 @@ class ExperimentCog(commands.Cog, Server):
                 nextCountStr = str(count+1) #Expected next combo
 
                 #Successful combo
-                regEx = re.search(r'\d+', message.content)
-                firstInt = 0 if regEx is None else regEx.group()
+                regEx = self.regex_count(message.content)
+                firstInt = 0 if regEx is None else regEx
                 if (firstInt == nextCountStr):
 
                     self.combo = count + 1
