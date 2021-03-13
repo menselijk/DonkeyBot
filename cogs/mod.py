@@ -45,7 +45,7 @@ class ModCog(commands.Cog, Server):
 
             #Get account age
             if ((datetime.datetime.utcnow() - user.created_at).days <= 7):
-                infractions = ("- " + str((datetime.datetime.utcnow() - user.created_at).days) + " days old")
+                infractions = (f"- {(datetime.datetime.utcnow() - user.created_at).days} days old")
 
                 #Default avatar
                 if (user.default_avatar_url == user.avatar_url):

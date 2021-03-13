@@ -87,7 +87,7 @@ class LabCog(commands.Cog, Server):
         if (message.content.lower() == "cheese" and self.hasCheese):
 
             # Announce the lucky person and reset
-            msg = "<@" + str(member.id) + "> got the cheese!"
+            msg = f"<@{member.id}> got the cheese!"
             await self.client.get_channel(self.labChannel).send(msg)
             
             # Give good role to bad rolers

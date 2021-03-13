@@ -11,23 +11,24 @@ class Server():
     def __init__(self):
 
         #Server
-        self.server = 284028259027648513
+        self.server = 817450914444869682
 
         #Channels
-        self.generalChannel = 284028535155326976
-        self.experimentChannel = 718251019661869156
-        self.labChannel = 718600409652133948
-        self.spamChannel = 302471952566845440
-        self.minecraftChannel = 680316844581847049
-        self.logChannel = 299941563302150145
+        self.generalChannel = 817450914604253206
+        self.experimentChannel = 817450914918432830
+        self.labChannel = 817450914918432831
+        self.spamChannel = 817450914604253214
+        self.minecraftChannel = 817450914604253214
+        self.logChannel = 817450914604253214
+        self.drawingArenaChannel = 750753280694550539
 
         #Roles
-        self.goodRole = 718590952947580950
-        self.badRole = 718590813726179398
-        self.coolGuyRole = 717900752583917598
-        self.regularRole = 289947714630713344
-        self.notseriousRole = 519920381507797002
+        self.goodRole = 817450914452602927
+        self.badRole = 817450914452602926
+        self.coolGuyRole = 817450914481832029
+        self.regularRole = 817450914473705534
+        self.notseriousRole = 817450914473705536
 
         #Important People
-        self.robID = 151486808247500801
+        self.robID = 534122161972183050
 

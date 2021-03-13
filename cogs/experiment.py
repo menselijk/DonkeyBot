@@ -38,7 +38,7 @@ class ExperimentCog(commands.Cog, Server):
             #Change nickname if someone removes their combo in an edit
             beforeCount = re.search(r'\d+', before.content).group()
             if (beforeCount not in after.content):
-                await after.channel.send(after.author.mention + " edited their message\n> " + before.content)
+                await after.channel.send(f"{after.author.mention} edited their message \n> {before.content}")
     
     @commands.Cog.listener()
     async def on_message_delete(self, message):
@@ -51,7 +51,7 @@ class ExperimentCog(commands.Cog, Server):
                 regEx = re.search(r'\d+', message.content)
                 firstInt = 0 if regEx is None else regEx.group()
                 
-                await message.channel.send("> " + firstInt + "\n<@" + str(member.id) + ">")
+                await message.channel.send(f"> {firstInt}\n<@{member.id}>")
                 
                 #Remove good role, add bad role
                 if (message.guild.get_role(self.goodRole) in member.roles):
@@ -115,17 +115,17 @@ class ExperimentCog(commands.Cog, Server):
 
                     best = message.channel.topic.split("Best: ", 1)[1] #Get record from topic
 
-                    countdownMessage = "<@" + str(member.id) + "> broke <#718251019661869156> <:luigisad:406759665058185226>"
+                    countdownMessage = f"<@{member.id}> broke <#718251019661869156> <:luigisad:406759665058185226>"
                     if (count > int(best)): #If new record, append to message
-                        countdownMessage += " **(NEW BEST: " + str(count) + ")**"
-                        await message.channel.edit(topic="Best: " + str(count))
+                        countdownMessage += f" **(NEW BEST: {count})**"
+                        await message.channel.edit(topic=f"Best: {count}")
 
-                    countdownMessage += "\n> " + message.content
+                    countdownMessage += f"\n> {message.content}"
 
                     #Send previous message
                     lastmsg = await message.channel.history(limit=2).flatten()
                     try:
-                        countdownMessage += "\nPrevious message:\n> " + lastmsg[1].content
+                        countdownMessage += f"\nPrevious message:\n> {lastmsg[1].content}"
                     except:
                         pass
 

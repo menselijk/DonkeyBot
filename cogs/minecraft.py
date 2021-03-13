@@ -28,10 +28,10 @@ class MinecraftCog(commands.Cog, Server):
         return
     
     def getUUID(self, username):
-        x = requests.get('https://api.mojang.com/users/profiles/minecraft/' + username)
+        x = requests.get(f'https://api.mojang.com/users/profiles/minecraft/{username}')
         if (x.status_code == 200):
             resp = x.json()["id"]
-            uuid = resp[:8] + "-" + resp[8:12] + "-" + resp[12:16] + "-" + resp[16:20] + "-" + resp[20:]
+            uuid = f"{resp[:8]}-{resp[8:12]}-{resp[12:16]}-{resp[16:20]}-{resp[20:]}"
             return uuid
         else:
             return False
@@ -50,7 +50,7 @@ class MinecraftCog(commands.Cog, Server):
             uuid = self.getUUID(username)
 
             if (not uuid):
-                await minecraftChannel.send("<@" + str(member.id) + "> not a real username :frowning:")
+                await minecraftChannel.send(f"<@{member.id}> not a real username :frowning:")
                 return
 
             if (user != None):
@@ -69,9 +69,9 @@ class MinecraftCog(commands.Cog, Server):
                 
                 #Send confirmation in DMs or MC channel
                 try:
-                    await member.send("Whitelisted `" + username + "` (replaced `" + user["username"] + "`)")
+                    await member.send(f"Whitelisted `{username}` (replaced `{user['username']}`)")
                 except:
-                    await minecraftChannel.send("<@" + str(member.id) + "> changed your whitelisted account. Allow direct messages from server members in your privacy settings and use `@Donkey ip` to receive the IP and server info :confused:")
+                    await minecraftChannel.send(f"<@{member.id}> changed your whitelisted account. Allow direct messages from server members in your privacy settings and use `@Donkey ip` to receive the IP and server info :confused:")
 
             else:
                 #Write username to file
@@ -86,11 +86,11 @@ class MinecraftCog(commands.Cog, Server):
 
                 #Send confirmation in DMs or MC channel
                 try:
-                    await member.send("Whitelisted `" + username + "`")
+                    await member.send(f"Whitelisted `{username}`")
                     await member.send("**IMPORTANT PLEASE READ:** *The whitelist updates automatically every 2 minutes*. Be patient and if you are not whitelisted after 5 minutes please verify your minecraft name.\n\nThis server is __anarchy__ meaning that it is __NOT__ moderated. Do not @ anyone in the Discord asking for help because you will not get any. Keep discussion in the #minecraft channel and have fun :thumbsup:\n\n**Server IP:** IP.ADDRESS.HERE\n**Version:** 1.16.1 (Latest Release)")
 
                 except:
-                    await minecraftChannel.send("<@" + str(member.id) + "> Allow direct messages from server members in your privacy settings and use `@Donkey ip` to receive the IP and server info :confused:")
+                    await minecraftChannel.send(f"<@{member.id}> Allow direct messages from server members in your privacy settings and use `@Donkey ip` to receive the IP and server info :confused:")
                 
                 self.whitelistUpdate()
             
@@ -101,7 +101,7 @@ class MinecraftCog(commands.Cog, Server):
             }, where('id') == member.id)
 
         else:
-            await minecraftChannel.send("Sorry <@" + str(member.id) + "> but you do not have **Regular** role :frowning:")
+            await minecraftChannel.send(f"Sorry <@{member.id}> but you do not have **Regular** role :frowning:")
 
     #Sends IP if whitelisted
     @commands.command()
@@ -115,12 +115,12 @@ class MinecraftCog(commands.Cog, Server):
             try:
                 await member.send("**IMPORTANT PLEASE READ:** *The whitelist updates automatically every 2 minutes*. Be patient and if you are not whitelisted after 5 minutes please verify your minecraft name.\n\nThis server is __anarchy__ meaning that it is __NOT__ moderated. Do not @ anyone in the Discord asking for help because you will not get any. Keep discussion in the #minecraft channel and have fun :thumbsup:\n\n**Server IP:** IP.ADDRESS.HERE\n**Version:** 1.16.1 (Latest Release)")
             except:
-                await minecraftChannel.send("<@" + str(member.id) + "> Allow direct messages from server members in your privacy settings :confused:")
+                await minecraftChannel.send(f"<@{member.id}> Allow direct messages from server members in your privacy settings :confused:")
         else:
             try:
                 await member.send("You must be whitelisted to use this command. Use `@Donkey whitelist username` first.")
             except:
-                await minecraftChannel.send("<@" + str(member.id) + "> you must be whitelisted to use this command. Use `@Donkey whitelist username` first. (Also, allow direct messages from server members in your privacy settings)")
+                await minecraftChannel.send(f"<@{member.id}> you must be whitelisted to use this command. Use `@Donkey whitelist username` first. (Also, allow direct messages from server members in your privacy settings)")
     
     #Rob only command to search DB
     @commands.command()
@@ -130,9 +130,9 @@ class MinecraftCog(commands.Cog, Server):
 
             user = self.minecraft.get(where('username') == username)
             if (user != None):
-                await ctx.message.channel.send("`" + username + "` is <@" + str(user["id"]) + ">")
+                await ctx.message.channel.send(f"`{username}` is <@{user['id']}>")
             else:
-                await ctx.message.channel.send("`" + username + "` was not found in the whitelist")
+                await ctx.message.channel.send(f"`{username}` was not found in the whitelist")
 
 def setup(client):
     client.add_cog(MinecraftCog(client))

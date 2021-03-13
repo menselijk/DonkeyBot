@@ -37,13 +37,13 @@ class FunCog(commands.Cog, Server):
         for user in userBirthdays:
             if (user['birthday'] == str(datetime.datetime.now().date())):
                 general = self.client.get_guild(self.server).get_channel(self.generalChannel)
-                await general.send("**Happy Birthday <@" + str(user['id']) + ">!** :birthday: :tada:")
+                await general.send(f"**Happy Birthday <@{user['id']}>!** :birthday: :tada:")
 
     @commands.Cog.listener()
     async def on_message(self, message):
 
         #Temp remove messages with content in drawing arena
-        if (message.channel.id == 750753280694550539 and message.content != ""):
+        if (message.channel.id == self.drawingArenaChannel and message.content != ""):
             await message.delete()
         
         member = message.author
@@ -85,7 +85,7 @@ class FunCog(commands.Cog, Server):
                     found = True
             
             general = message.guild.get_channel(self.generalChannel)
-            await general.send(winner.mention + " and " + selection.mention + " won the cool guy raffle! ")
+            await general.send(f"{winner.mention} and {selection.mention} won the cool guy raffle! ")
 
             #Reset active users
             self.activeUsers = []

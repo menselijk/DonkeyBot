@@ -26,7 +26,7 @@ class BasicCog(commands.Cog, Server):
         messageContent = message.content.lower()
 
         #If mentioned, parse command
-        mention = "<@!" + str(self.client.user.id) + "> "
+        mention = f"<@!{self.client.user.id}> "
         if (mention in messageContent):
             messageContent = messageContent.replace(mention, "")
         elif (messageContent.startswith(">")):
@@ -53,10 +53,10 @@ class BasicCog(commands.Cog, Server):
         await ctx.message.delete()
 
         allComs = self.commands.table('_default').all() #Get all custom commands
-        response = "<@" + str(ctx.message.author.id) + "> all commands:"
+        response = f"<@{ctx.message.author.id}> all commands:"
 
         for com in allComs:
-            response += "\n- `" + com['use'] + "`"
+            response += f"\n- `{com['use']}`"
         
         spam = ctx.message.guild.get_channel(self.spamChannel)
         await spam.send(response) #Send to spam channel
@@ -86,7 +86,7 @@ class BasicCog(commands.Cog, Server):
             years = math.floor(int(days) / 365)
             days = int(days) - (365 * years)  
             
-            await ctx.message.channel.send("<@" + str(member.id) + "> Your next server birthday is `" + birthday +"` :cake:\nTotal Age: `" + str(years) + " years, " + str(days) + " days`")
+            await ctx.message.channel.send(f"<@{member.id}> Your next server birthday is `{birthday}` :cake:\nTotal Age: `{years} years, {days} days`")
 
             self.users.upsert({ 
                 'id': member.id, 

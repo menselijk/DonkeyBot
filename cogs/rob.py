@@ -33,7 +33,7 @@ class RobCog(commands.Cog, Server):
             'resp': args
         }, where('use') == use)
 
-        await ctx.message.channel.send("Added command `" + use + "`\n**Response:** " + args)
+        await ctx.message.channel.send(f"Added command `{use}`\n**Response:** {args}")
     
     @commands.command()
     @commands.check(isRob)
@@ -42,9 +42,9 @@ class RobCog(commands.Cog, Server):
         removed = self.commands.remove(where('use') == use)
 
         if (len(removed) > 0):
-            await ctx.message.channel.send("Deleted command `" + use + "`")
+            await ctx.message.channel.send(f"Deleted command `{use}`")
         else:
-            await ctx.message.channel.send("No command found `" + use + "`")
+            await ctx.message.channel.send(f"No command found `{use}`")
 
     @commands.command()
     @commands.check(isRob)
@@ -65,7 +65,7 @@ class RobCog(commands.Cog, Server):
         await winner.add_roles(message.guild.get_role(self.coolGuyRole))
         
         general = message.guild.get_channel(self.generalChannel)
-        await general.send("<@" + selection + "> won the cool guy raffle! ")
+        await general.send(f"<@{selection}> won the cool guy raffle! ")
     
     @commands.command()
     @commands.check(isRob)
